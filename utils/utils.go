@@ -34,6 +34,6 @@ func BigOrLittle(arr []byte) string {
 	// fmt.Printf("0x%s\n", arr)
 	// fmt.Printf("%s\n", "0xa7274594ce215208c8e309e8f2fe05d4a9ae412b")
 
-	return fmt.Sprintf("0x%s\n", string(arr))
-
+	// return fmt.Sprintf("0x%s\n", string(arr))
+	return string(arr)
 }

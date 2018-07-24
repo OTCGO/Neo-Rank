@@ -9,7 +9,7 @@ func init() {
 	mgo.NewMongo()
 }
 func TestFind(t *testing.T) {
-	list, _ := Find(10, 0)
+	// list, _ := Find(10, 0)
 
-	t.Log("list", list)
+	// t.Log("list", list)
 }

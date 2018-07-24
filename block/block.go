@@ -14,7 +14,7 @@ const host = "http://api.otcgo.cn:10332"
 type Block struct {
 }
 
-func (b *Block) GetNep5Balance() (models.Invoke, error) {
+func (b *Block) GetNep5Balance(assetId string, address string) (models.Invoke, error) {
 
 	/*
 		payload := make(map[string]interface{})
@@ -40,7 +40,7 @@ func (b *Block) GetNep5Balance() (models.Invoke, error) {
 
 	*/
 
-	data := fmt.Sprintf("{\"jsonrpc\": \"2.0\",\"method\": \"invokefunction\",  \"params\": [    \"%s\",    \"balanceOf\",    [      {\"type\": \"Hash160\",        \"value\": \"%s\"      }    ]  ],  \"id\": 3}", "0xecc6b20d3ccac1ee9ef109af5a7cdb85706b1df9", "0xa7274594ce215208c8e309e8f2fe05d4a9ae412b")
+	data := fmt.Sprintf("{\"jsonrpc\": \"2.0\",\"method\": \"invokefunction\",  \"params\": [    \"%s\",    \"balanceOf\",    [      {\"type\": \"Hash160\",        \"value\": \"%s\"      }    ]  ],  \"id\": 3}", assetId, address)
 
 	fmt.Println("data", data)
 	payload := strings.NewReader(data)
@@ -56,6 +56,8 @@ func (b *Block) GetNep5Balance() (models.Invoke, error) {
 	}
 
 	body, err := ioutil.ReadAll(res.Body)
+
+	fmt.Println("body", string(body))
 
 	var invoke models.Invoke
 	err = json.Unmarshal(body, &invoke)
