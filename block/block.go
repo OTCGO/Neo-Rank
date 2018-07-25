@@ -63,3 +63,29 @@ func (b *Block) GetNep5Balance(assetId string, address string) (models.Invoke, e
 	err = json.Unmarshal(body, &invoke)
 	return invoke, err
 }
+
+func (b *Block) GetNep5Decimals(assetId string) (models.Invoke, error) {
+
+	data := fmt.Sprintf("{\"jsonrpc\": \"2.0\",\"method\": \"invokefunction\",  \"params\": [    \"%s\",    \"decimals\",    [    ]  ],  \"id\": 2}", assetId)
+
+	fmt.Println("data", data)
+	payload := strings.NewReader(data)
+
+	req, _ := http.NewRequest("POST", host, payload)
+
+	req.Header.Add("Content-Type", "application/json")
+
+	res, err := http.DefaultClient.Do(req)
+
+	if err != nil {
+		defer res.Body.Close()
+	}
+
+	body, err := ioutil.ReadAll(res.Body)
+
+	fmt.Println("body", string(body))
+
+	var invoke models.Invoke
+	err = json.Unmarshal(body, &invoke)
+	return invoke, err
+}

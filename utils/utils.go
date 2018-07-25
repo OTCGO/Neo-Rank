@@ -4,6 +4,8 @@ import (
 	"Neo-Rank/utils/base58"
 	"encoding/hex"
 	"fmt"
+	"math"
+	"strconv"
 )
 
 func AddressToScripthash(address string) []byte {
@@ -21,7 +23,7 @@ func AddressToScripthash(address string) []byte {
 	// return binascii.hexlify(b58decode(address)[1:-4]).decode('utf-8')
 }
 
-func BigOrLittle(arr []byte) string {
+func BigOrLittle(arr []byte) []byte {
 	length := len(arr)
 	for index := 0; index < length/2; index++ {
 		if index%2 == 0 {
@@ -31,9 +33,14 @@ func BigOrLittle(arr []byte) string {
 		}
 	}
 
-	// fmt.Printf("0x%s\n", arr)
-	// fmt.Printf("%s\n", "0xa7274594ce215208c8e309e8f2fe05d4a9ae412b")
+	return arr
+}
 
-	// return fmt.Sprintf("0x%s\n", string(arr))
-	return string(arr)
+func HexToNumStr(fixied8 string, decimals int) float64 {
+	hexStr := BigOrLittle([]byte(fixied8))
+
+	x, _ := strconv.ParseInt(string(hexStr), 16, 64)
+
+	result := float64(x) / math.Pow10(decimals)
+	return result
 }
