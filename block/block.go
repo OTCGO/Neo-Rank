@@ -42,7 +42,7 @@ func (b *Block) GetNep5Balance(assetId string, address string) (models.Invoke, e
 
 	data := fmt.Sprintf("{\"jsonrpc\": \"2.0\",\"method\": \"invokefunction\",  \"params\": [    \"%s\",    \"balanceOf\",    [      {\"type\": \"Hash160\",        \"value\": \"%s\"      }    ]  ],  \"id\": 3}", assetId, address)
 
-	fmt.Println("data", data)
+	// fmt.Println("data", data)
 	payload := strings.NewReader(data)
 
 	req, _ := http.NewRequest("POST", host, payload)
@@ -57,7 +57,7 @@ func (b *Block) GetNep5Balance(assetId string, address string) (models.Invoke, e
 
 	body, err := ioutil.ReadAll(res.Body)
 
-	fmt.Println("body", string(body))
+	// fmt.Println("body", string(body))
 
 	var invoke models.Invoke
 	err = json.Unmarshal(body, &invoke)
@@ -68,7 +68,7 @@ func (b *Block) GetNep5Decimals(assetId string) (models.Invoke, error) {
 
 	data := fmt.Sprintf("{\"jsonrpc\": \"2.0\",\"method\": \"invokefunction\",  \"params\": [    \"%s\",    \"decimals\",    [    ]  ],  \"id\": 2}", assetId)
 
-	fmt.Println("data", data)
+	// fmt.Println("data", data)
 	payload := strings.NewReader(data)
 
 	req, _ := http.NewRequest("POST", host, payload)
@@ -83,7 +83,7 @@ func (b *Block) GetNep5Decimals(assetId string) (models.Invoke, error) {
 
 	body, err := ioutil.ReadAll(res.Body)
 
-	fmt.Println("body", string(body))
+	// fmt.Println("body", string(body))
 
 	var invoke models.Invoke
 	err = json.Unmarshal(body, &invoke)

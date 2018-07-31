@@ -2,7 +2,6 @@ package utils
 
 import (
 	"bytes"
-	"fmt"
 	"strconv"
 	"testing"
 )
@@ -41,5 +40,5 @@ func TestHash160(t *testing.T) {
 		buffer.WriteString(s)
 	}
 	// 转化为字符串
-	fmt.Println(buffer.String())
+	// fmt.Println(buffer.String())
 }
