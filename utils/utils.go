@@ -4,7 +4,6 @@ import (
 	"Neo-Rank/block"
 	"Neo-Rank/utils/base58"
 	"encoding/hex"
-	"fmt"
 	"math"
 	"strconv"
 )
@@ -18,7 +17,7 @@ func AddressToScripthash(address string) []byte {
 	dst := make([]byte, hex.EncodedLen(len(str)))
 	hex.Encode(dst, str)
 
-	fmt.Printf("%s\n", dst)
+	// fmt.Printf("%s\n", dst)
 
 	return dst
 	// return binascii.hexlify(b58decode(address)[1:-4]).decode('utf-8')
@@ -55,16 +54,16 @@ func GetDecimalsCache(assetId []byte) (r int64, err error) {
 	// symbollMap[string()]
 
 	decimal, ok := symbollMap[string(assetId)]
-	fmt.Println("GetDecimalsCache", ok)
+	//fmt.Println("GetDecimalsCache", ok)
 	if ok {
 		return decimal, nil
 	} else {
 		var b = &block.Block{}
 		invoke, err := b.GetNep5Decimals(string(assetId))
-		fmt.Println("GetDecimalsCache:v%+", invoke)
+		//fmt.Println("GetDecimalsCache:v%+", invoke)
 		r, err = strconv.ParseInt(invoke.Result.Stack[0].Value, 10, 32)
 
-		fmt.Println("GetDecimalsCache:r", r)
+		// fmt.Println("GetDecimalsCache:r", r)
 		symbollMap[string(assetId)] = r
 		return r, err
 	}

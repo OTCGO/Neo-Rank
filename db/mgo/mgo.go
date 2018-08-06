@@ -14,7 +14,7 @@ var sessionMongo *mgo.Session
 
 func NewMongo() {
 	conn := "127.0.0.1:27017"
-	fmt.Println("conn", conn)
+	// fmt.Println("conn", conn)
 	session, err := mgo.Dial(conn)
 	//设置连接池个数
 	session.SetPoolLimit(300)

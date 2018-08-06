@@ -2,10 +2,19 @@
 
 
 [[projects]]
-  branch = "master"
-  name = "github.com/btcsuite/btcutil"
-  packages = ["base58"]
-  revision = "ab6388e0c60ae4834a1f57511e20c17b5f78be4b"
+  name = "github.com/go-redis/redis"
+  packages = [
+    ".",
+    "internal",
+    "internal/consistenthash",
+    "internal/hashtag",
+    "internal/pool",
+    "internal/proto",
+    "internal/singleflight",
+    "internal/util"
+  ]
+  revision = "480db94d33e6088e08d628833b6c0705451d24bb"
+  version = "v6.13.2"
 
 [[projects]]
   name = "github.com/go-yaml/yaml"
@@ -40,6 +49,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "815dbdbcf3e7d8e79700043a5590b73a7f06db101df81650bed986719fdf3ed5"
+  inputs-digest = "f8ffd799b0c26a38cd1e382088c42e834a016d88a5fa39d381ba9eec87c0a5da"
   solver-name = "gps-cdcl"
   solver-version = 1
