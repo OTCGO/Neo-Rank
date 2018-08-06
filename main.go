@@ -2,6 +2,7 @@ package main
 
 import (
 	"Neo-Rank/block"
+	"Neo-Rank/config"
 	"Neo-Rank/db/mgo"
 	"Neo-Rank/services"
 	"Neo-Rank/utils"
@@ -29,18 +30,21 @@ var total int = 0 // 总页数
 
 func main() {
 	fmt.Println("main.go")
+	conf, err := config.Load("./config", "development")
+	// fmt.Printf("config%+v", conf)
+
+	if err != nil {
+		fmt.Println("err", err)
+		// errors.New("config error")
+	}
 	start := time.Now()
 
-	mgo.NewMongo()
-	rd = redis.NewRedis()
+	mgo.NewMongo(conf.Mongodb)
+	rd = redis.NewRedis(conf.Redis)
 
 	GetCount()
 
 	fmt.Printf("总页数:%d", total)
-	// cfg, err := config.Load(configPath, env)
-	// if err != nil {
-
-	// }
 
 	//两个channel，一个用来放置工作项，一个用来存放处理结果。
 
@@ -79,6 +83,7 @@ func main() {
 	//记录时间
 	elapsed := time.Since(start)
 	fmt.Println("App elapsed: ", elapsed)
+
 }
 
 //这个是工作线程，处理具体的业务逻辑，将jobs中的任务取出，处理后将处理结果放置在results中。

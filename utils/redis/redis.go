@@ -1,26 +1,28 @@
 package redis
 
 import (
+	"Neo-Rank/config"
+
 	"github.com/go-redis/redis"
 )
 
 var client *redis.Client
 var InitErr error
 
-func NewRedis() *RedisCon {
-	client, InitErr = redisInit()
+func NewRedis(mgoRedis config.Redis) *RedisCon {
+	client, InitErr = redisInit(mgoRedis)
 	return &RedisCon{}
 }
 
 type RedisCon struct {
 }
 
-func redisInit() (client *redis.Client, err error) {
+func redisInit(mgoRedis config.Redis) (client *redis.Client, err error) {
 
 	client = redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     mgoRedis.Addr,
+		Password: mgoRedis.Password, // no password set
+		DB:       mgoRedis.DB,       // use default DB
 	})
 	// switch config.GetEnvironment() {
 	// case "DEVELOPMENT":

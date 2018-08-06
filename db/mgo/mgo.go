@@ -1,7 +1,9 @@
 package mgo
 
 import (
+	"Neo-Rank/config"
 	"fmt"
+	"time"
 
 	mgo "gopkg.in/mgo.v2"
 )
@@ -12,12 +14,23 @@ import (
 
 var sessionMongo *mgo.Session
 
-func NewMongo() {
-	conn := "127.0.0.1:27017"
+func NewMongo(mgoCon config.Mongodb) {
+	// mgoCon := config.GetConfig().Mongodb
+	fmt.Printf("config%+v", mgoCon)
+	// conn := "127.0.0.1:27017"
+	dialInfo := &mgo.DialInfo{
+		Addrs:     mgoCon.Addrs,
+		Direct:    mgoCon.Direct,
+		Timeout:   time.Second * 1,
+		Database:  mgoCon.Database,
+		Source:    mgoCon.Source,
+		Username:  mgoCon.Username,
+		Password:  mgoCon.Password,
+		PoolLimit: mgoCon.PoolLimit,
+	}
 	// fmt.Println("conn", conn)
-	session, err := mgo.Dial(conn)
-	//设置连接池个数
-	session.SetPoolLimit(300)
+	session, err := mgo.DialWithInfo(dialInfo)
+
 	if err != nil {
 		fmt.Printf("连接mongodb失败:%s\n", err)
 	}
