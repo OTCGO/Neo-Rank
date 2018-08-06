@@ -21,7 +21,7 @@ const (
 
 var rd *redis.RedisCon
 
-const maxRoutineNum int = 10
+const maxRoutineNum int = 15
 
 var pageCount int = 50 //每页数量
 var offset int = 0
@@ -48,9 +48,9 @@ func main() {
 
 	//两个channel，一个用来放置工作项，一个用来存放处理结果。
 
-	jobs := make(chan int, 100)
+	jobs := make(chan int)
 
-	results := make(chan int, 100)
+	results := make(chan int)
 
 	// 开启三个线程，也就是说线程池中只有3个线程，实际情况下，我们可以根据需要动态增加或减少线程。
 
@@ -135,6 +135,7 @@ func Banlance(address string) {
 			invoke, err := b.GetNep5Balance(v.AssetId, string(utils.BigOrLittle(utils.AddressToScripthash(address))))
 			if err != nil {
 				errors.New("GetNep5Balance error")
+				fmt.Println("err", err)
 			}
 			// fmt.Println("v%", invoke)
 			if invoke.Result.Stack[0].Value != "" {
@@ -149,6 +150,7 @@ func Banlance(address string) {
 				decimal, err := utils.GetDecimalsCache([]byte(v.AssetId))
 				if err != nil {
 					errors.New("decimal error")
+					fmt.Println("err", err)
 				}
 				// fmt.Println("decimal", decimal)
 
@@ -159,6 +161,7 @@ func Banlance(address string) {
 					_, err = rd.ZAdd(string(v.AssetId[2:]), balance, address)
 					if err != nil {
 						errors.New("redis error")
+						fmt.Println("err", err)
 					}
 					fmt.Printf("address:%s,balance:%f\n", address, balance)
 				}
@@ -172,6 +175,7 @@ func GetCount() {
 	counts, err := addressService.Count()
 	if err != nil {
 		errors.New("GetCount error")
+		fmt.Println("err", err)
 	}
 	fmt.Println("counts", counts)
 
