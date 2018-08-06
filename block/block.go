@@ -60,7 +60,7 @@ func (b *Block) GetNep5Balance(assetId string, address string) (models.Invoke, e
 	// fmt.Println("body", string(body))
 
 	var invoke models.Invoke
-	err = json.Unmarshal(body, &invoke)
+	json.Unmarshal(body, &invoke)
 	return invoke, err
 }
 
@@ -86,6 +86,6 @@ func (b *Block) GetNep5Decimals(assetId string) (models.Invoke, error) {
 	// fmt.Println("body", string(body))
 
 	var invoke models.Invoke
-	err = json.Unmarshal(body, &invoke)
+	json.Unmarshal(body, &invoke)
 	return invoke, err
 }
