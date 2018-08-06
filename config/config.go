@@ -75,9 +75,9 @@ func Load(path string, env string) (Config, error) {
 	return config, nil
 }
 
-// func GetConfig() (config Config) {
-// 	if &config != nil {
-// 		errors.New("GetConfig error")
-// 	}
-// 	return config
-// }
+func GetConfig() (config Config) {
+	if &config != nil {
+		errors.New("GetConfig error")
+	}
+	return config
+}

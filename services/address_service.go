@@ -1,6 +1,7 @@
 package services
 
 import (
+	"Neo-Rank/config"
 	"Neo-Rank/db/mgo"
 	"Neo-Rank/models"
 )
@@ -9,7 +10,8 @@ type AddressService struct {
 }
 
 const collectionAddress = "address"
-const db = "testnet-node"
+
+var db = config.GetConfig().Mongodb.Database
 
 func (addressService *AddressService) Find(limit int, skip int, condition map[string]interface{}) (ads []models.Address, err error) {
 	session := mgo.GetSession()

@@ -10,8 +10,6 @@ type AssetService struct {
 
 const collectionAsset = "asset"
 
-// const db = "testnet-node"
-
 func (assetService *AssetService) Find(condition map[string]interface{}) (ast []models.Asset, err error) {
 	session := mgo.GetSession()
 	//

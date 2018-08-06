@@ -160,6 +160,7 @@ func Banlance(address string) {
 					if err != nil {
 						errors.New("redis error")
 					}
+					fmt.Printf("address:%s,balance:%f\n", address, balance)
 				}
 			}
 		}
