@@ -22,7 +22,7 @@ const (
 
 var rd *redis.RedisCon
 
-const maxRoutineNum int = 15
+const maxRoutineNum int = 10
 
 var pageCount int = 50 //每页数量
 var offset int = 0
@@ -51,9 +51,9 @@ func main() {
 
 	//两个channel，一个用来放置工作项，一个用来存放处理结果。
 
-	jobs := make(chan int)
+	jobs := make(chan int, total)
 
-	results := make(chan int)
+	results := make(chan int, total)
 
 	// 开启三个线程，也就是说线程池中只有3个线程，实际情况下，我们可以根据需要动态增加或减少线程。
 
