@@ -140,7 +140,11 @@ func Banlance(address string) {
 				errors.New("GetNep5Balance error")
 				fmt.Println("err", err)
 			}
-			// fmt.Println("v%", invoke)
+
+			if invoke.Id < 0 {
+				return
+			}
+
 			if invoke.Result.Stack[0].Value != "" {
 				// fmt.Println("Stack", invoke.Result.Stack[0].Value)
 				// // s, _ := strconv.ParseFloat(invoke.Result.Stack[0].Value, 64)
