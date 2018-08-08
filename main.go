@@ -8,8 +8,8 @@ import (
 	"Neo-Rank/utils"
 	"Neo-Rank/utils/redis"
 	"fmt"
-	"go/src/math/rand"
 	"math"
+	"math/rand"
 	"time"
 
 	"github.com/pkg/errors"
