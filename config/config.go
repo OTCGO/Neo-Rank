@@ -20,7 +20,8 @@ type (
 
 	// ApplicationConfiguration config specific to the node.
 	ApplicationConfiguration struct {
-		Environment string `yaml:"Environment"`
+		Environment string   `yaml:"Environment"`
+		Nodes       []string `yaml:"Nodes"`
 	}
 
 	Mongodb struct {

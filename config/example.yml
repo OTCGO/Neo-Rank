@@ -1,5 +1,6 @@
 ApplicationConfiguration: 
   Environment: development
+  Nodes: ["http://api.otcgo.cn:10332","http://seed2.neo.org:10332"]
 Mongodb:
   Addrs: ["127.0.0.1"]
   Direct: false

@@ -8,6 +8,7 @@ import (
 	"Neo-Rank/utils"
 	"Neo-Rank/utils/redis"
 	"fmt"
+	"go/src/math/rand"
 	"math"
 	"time"
 
@@ -28,11 +29,13 @@ var offset int = 0
 
 var total int = 0 // 总页数
 
+var app config.ApplicationConfiguration
+
 func main() {
 	fmt.Println("main.go")
 	conf, err := config.Load("./config", "development")
 	// fmt.Printf("config%+v", conf)
-
+	app = conf.ApplicationConfiguration
 	if err != nil {
 		fmt.Println("err", err)
 		// errors.New("config error")
@@ -132,7 +135,7 @@ func Banlance(address string) {
 		// fmt.Println("v", v)
 		if v.Type == "nep5" {
 			// fmt.Println("v", v)
-			invoke, err := b.GetNep5Balance(v.AssetId, string(utils.BigOrLittle(utils.AddressToScripthash(address))))
+			invoke, err := b.GetNep5Balance(GetRandomNode(), v.AssetId, string(utils.BigOrLittle(utils.AddressToScripthash(address))))
 			if err != nil {
 				errors.New("GetNep5Balance error")
 				fmt.Println("err", err)
@@ -147,7 +150,7 @@ func Banlance(address string) {
 				// fmt.Println("balance", balance)
 				// fmt.Println("s%", invoke.Result.Stack[0].Value)
 				// fmt.Println("AssetId", v.AssetId)
-				decimal, err := utils.GetDecimalsCache([]byte(v.AssetId))
+				decimal, err := utils.GetDecimalsCache(GetRandomNode(), []byte(v.AssetId))
 				if err != nil {
 					errors.New("decimal error")
 					fmt.Println("err", err)
@@ -182,4 +185,14 @@ func GetCount() {
 	total = int(math.Ceil(float64(counts) / float64(pageCount))) //page总数
 
 	return
+}
+
+func GetRandomNode() (node string) {
+
+	// rand.Seed(time.Now().Unix())
+	nodes := app.Nodes
+	// fmt.Print("GetRandomNode", nodes)
+	n := rand.Int() % len(nodes)
+	// fmt.Print("GetRandomNode", nodes[n])
+	return nodes[n]
 }

@@ -9,12 +9,10 @@ import (
 	"strings"
 )
 
-const host = "http://api.otcgo.cn:10332"
-
 type Block struct {
 }
 
-func (b *Block) GetNep5Balance(assetId string, address string) (models.Invoke, error) {
+func (b *Block) GetNep5Balance(host string, assetId string, address string) (models.Invoke, error) {
 
 	/*
 		payload := make(map[string]interface{})
@@ -42,7 +40,7 @@ func (b *Block) GetNep5Balance(assetId string, address string) (models.Invoke, e
 
 	data := fmt.Sprintf("{\"jsonrpc\": \"2.0\",\"method\": \"invokefunction\",  \"params\": [    \"%s\",    \"balanceOf\",    [      {\"type\": \"Hash160\",        \"value\": \"%s\"      }    ]  ],  \"id\": 3}", assetId, address)
 
-	// fmt.Println("data", data)
+	// fmt.Println("host", host)
 	payload := strings.NewReader(data)
 
 	req, _ := http.NewRequest("POST", host, payload)
@@ -64,7 +62,7 @@ func (b *Block) GetNep5Balance(assetId string, address string) (models.Invoke, e
 	return invoke, err
 }
 
-func (b *Block) GetNep5Decimals(assetId string) (models.Invoke, error) {
+func (b *Block) GetNep5Decimals(host string, assetId string) (models.Invoke, error) {
 
 	data := fmt.Sprintf("{\"jsonrpc\": \"2.0\",\"method\": \"invokefunction\",  \"params\": [    \"%s\",    \"decimals\",    [    ]  ],  \"id\": 2}", assetId)
 

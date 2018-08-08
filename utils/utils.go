@@ -50,7 +50,7 @@ var symbollMap map[string]int64
 func init() {
 	symbollMap = make(map[string]int64)
 }
-func GetDecimalsCache(assetId []byte) (r int64, err error) {
+func GetDecimalsCache(host string, assetId []byte) (r int64, err error) {
 	// symbollMap[string()]
 
 	decimal, ok := symbollMap[string(assetId)]
@@ -59,7 +59,7 @@ func GetDecimalsCache(assetId []byte) (r int64, err error) {
 		return decimal, nil
 	} else {
 		var b = &block.Block{}
-		invoke, err := b.GetNep5Decimals(string(assetId))
+		invoke, err := b.GetNep5Decimals(host, string(assetId))
 		//fmt.Println("GetDecimalsCache:v%+", invoke)
 		r, err = strconv.ParseInt(invoke.Result.Stack[0].Value, 10, 32)
 
