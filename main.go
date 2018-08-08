@@ -145,6 +145,11 @@ func Banlance(address string) {
 				return
 			}
 
+			if len(invoke.Result.Stack) == 0 {
+				return
+			}
+
+			// fmt.Println("invoke", invoke)
 			if invoke.Result.Stack[0].Value != "" {
 				// fmt.Println("Stack", invoke.Result.Stack[0].Value)
 				// // s, _ := strconv.ParseFloat(invoke.Result.Stack[0].Value, 64)
