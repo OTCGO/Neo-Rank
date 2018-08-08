@@ -61,6 +61,15 @@ func GetDecimalsCache(host string, assetId []byte) (r int64, err error) {
 		var b = &block.Block{}
 		invoke, err := b.GetNep5Decimals(host, string(assetId))
 		//fmt.Println("GetDecimalsCache:v%+", invoke)
+
+		if invoke.Id < 0 {
+			return 0, err
+		}
+
+		if len(invoke.Result.Stack) == 0 {
+			return 0, err
+		}
+
 		r, err = strconv.ParseInt(invoke.Result.Stack[0].Value, 10, 32)
 
 		// fmt.Println("GetDecimalsCache:r", r)
