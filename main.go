@@ -45,48 +45,66 @@ func main() {
 	mgo.NewMongo(conf.Mongodb)
 	rd = redis.NewRedis(conf.Redis)
 
-	GetCount()
+	// 是否重新开始统计
+	if conf.ApplicationConfiguration.Mode[0] {
+		GetCount()
+		fmt.Printf("总页数:%d", total)
 
-	fmt.Printf("总页数:%d", total)
+		//两个channel，一个用来放置工作项，一个用来存放处理结果。
 
-	//两个channel，一个用来放置工作项，一个用来存放处理结果。
+		jobs := make(chan int, total)
 
-	jobs := make(chan int, total)
+		results := make(chan int, total)
 
-	results := make(chan int, total)
+		// 开启三个线程，也就是说线程池中只有3个线程，实际情况下，我们可以根据需要动态增加或减少线程。
 
-	// 开启三个线程，也就是说线程池中只有3个线程，实际情况下，我们可以根据需要动态增加或减少线程。
+		for w := 1; w <= maxRoutineNum; w++ {
 
-	for w := 1; w <= maxRoutineNum; w++ {
+			go worker(w, jobs, results)
 
-		go worker(w, jobs, results)
+		}
 
+		// 添加9个任务后关闭Channel
+
+		// channel to indicate that's all the work we have.
+
+		for j := 1; j <= total; j++ {
+
+			jobs <- j
+
+		}
+
+		close(jobs)
+
+		//获取所有的处理结果
+
+		for a := 1; a <= total; a++ {
+
+			<-results
+
+		}
 	}
 
-	// 添加9个任务后关闭Channel
+	// redis sub
+	if conf.ApplicationConfiguration.Mode[1] {
+		for {
+			if true {
+				msg, err := rd.Sub("nep5")
 
-	// channel to indicate that's all the work we have.
+				fmt.Println("msg", msg)
+				if err != nil {
+					fmt.Println("Sub error")
+				}
 
-	for j := 1; j <= total; j++ {
+				go Banlance(msg)
+			}
 
-		jobs <- j
-
-	}
-
-	close(jobs)
-
-	//获取所有的处理结果
-
-	for a := 1; a <= total; a++ {
-
-		<-results
-
+		}
 	}
 
 	//记录时间
 	elapsed := time.Since(start)
 	fmt.Println("App elapsed: ", elapsed)
-
 }
 
 //这个是工作线程，处理具体的业务逻辑，将jobs中的任务取出，处理后将处理结果放置在results中。

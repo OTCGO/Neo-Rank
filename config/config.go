@@ -22,6 +22,7 @@ type (
 	ApplicationConfiguration struct {
 		Environment string   `yaml:"Environment"`
 		Nodes       []string `yaml:"Nodes"`
+		Mode        []bool   `yaml:"Mode"`
 	}
 
 	Mongodb struct {

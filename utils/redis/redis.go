@@ -87,3 +87,13 @@ func (*RedisCon) ZAdd(key string, score float64, member string) (ok bool, err er
 	}
 	return true, nil
 }
+
+func (*RedisCon) Sub(c string) (content string, err error) {
+	pubsub := client.Subscribe(c)
+	defer pubsub.Close()
+	msg, err := pubsub.ReceiveMessage()
+
+	// fmt.Println(msg.Channel, msg.Payload)
+	return msg.Payload, err
+	// fmt.Println(msg.Channel, msg.Payload)
+}
