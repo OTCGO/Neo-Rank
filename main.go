@@ -33,6 +33,8 @@ var app config.ApplicationConfiguration
 
 func main() {
 	fmt.Println("main.go")
+	// runtime.GOMAXPROCS(runtime.NumCPU())
+
 	conf, err := config.Load("./config", "development")
 	// fmt.Printf("config%+v", conf)
 	app = conf.ApplicationConfiguration

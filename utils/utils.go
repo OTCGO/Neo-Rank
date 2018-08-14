@@ -70,6 +70,10 @@ func GetDecimalsCache(host string, assetId []byte) (r int64, err error) {
 			return 0, err
 		}
 
+		if invoke.Result.Stack[0].Value == "" {
+			return 0, err
+		}
+
 		r, err = strconv.ParseInt(invoke.Result.Stack[0].Value, 10, 32)
 
 		// fmt.Println("GetDecimalsCache:r", r)
