@@ -162,11 +162,11 @@ func Banlance(address string) {
 			}
 
 			if invoke.Id < 0 {
-				return
+				continue
 			}
 
 			if len(invoke.Result.Stack) == 0 {
-				return
+				continue
 			}
 
 			// fmt.Println("invoke", invoke)
